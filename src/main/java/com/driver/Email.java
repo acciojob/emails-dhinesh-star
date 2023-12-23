@@ -5,6 +5,14 @@ public class Email {
     private String emailId;
     private String password;
 
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Email(String emailId){
         this.emailId = emailId;
         this.password = "Accio@123";
@@ -25,5 +33,17 @@ public class Email {
         // 3. It contains at least one lowercase letter
         // 4. It contains at least one digit
         // 5. It contains at least one special character. Any character apart from alphabets and digits is a special character
+        if(password.equals(oldPassword)==true){
+            boolean upperCaseCheck=false,lowerCaseCheck=false,digitCheck=false,specialCharCheck=false;
+            for(char ch:newPassword.toCharArray()){
+                if(ch>=65 && ch<=90) upperCaseCheck=true;
+                else if(ch>=97 && ch<=122) lowerCaseCheck=true;
+                else if(ch>=48 && ch<=57) digitCheck=true;
+                else specialCharCheck=true;
+            }
+            if(newPassword.length()>=8 && upperCaseCheck && lowerCaseCheck && digitCheck && specialCharCheck){
+                this.password=newPassword;
+            }
+        }
     }
 }

@@ -46,6 +46,27 @@ public class Gmail extends Email {
     //Trash: Stores mails. Each mail has date (Date), sender (String), message (String)
     private ArrayList<Mail> inbox;
     private ArrayList<Mail> trash;
+
+    public void setInboxCapacity(int inboxCapacity) {
+        this.inboxCapacity = inboxCapacity;
+    }
+
+    public ArrayList<Mail> getInbox() {
+        return inbox;
+    }
+
+    public void setInbox(ArrayList<Mail> inbox) {
+        this.inbox = inbox;
+    }
+
+    public ArrayList<Mail> getTrash() {
+        return trash;
+    }
+
+    public void setTrash(ArrayList<Mail> trash) {
+        this.trash = trash;
+    }
+
     public Gmail(String emailId, int inboxCapacity) {
         super(emailId);
         this.inboxCapacity=inboxCapacity;
@@ -59,16 +80,11 @@ public class Gmail extends Email {
         // 1. Each mail in the inbox is distinct.
         // 2. The mails are received in non-decreasing order. This means that the date of a new mail is greater than equal to the dates of mails received already.
         Mail newMail = new Mail(date,sender,message);
+        inbox.add(0,newMail);
         if(inbox.size()>inboxCapacity){
-            Collections.sort(inbox,(a,b)->{
-                return b.da.compareTo(a.da);
-            });
-            Mail mailToBeMovedToTrash = inbox.get(inbox.size()-1);
-            inbox.remove(inbox.size()-1);
-            trash.add(mailToBeMovedToTrash);
-            inbox.add(newMail);
+            Mail mailDeleted = inbox.remove(inbox.size()-1);
+            trash.add(mailDeleted);
         }
-        else inbox.add(newMail);
     }
 
     public void deleteMail(String message){
@@ -89,9 +105,6 @@ public class Gmail extends Email {
         // If the inbox is empty, return null
         // Else, return the message of the latest mail present in the inbox
         if(inbox.size()==0) return  null;
-        Collections.sort(inbox,(a,b)->{
-            return b.da.compareTo(a.da);
-        });
         return inbox.get(0).msg;
     }
 
@@ -99,9 +112,6 @@ public class Gmail extends Email {
         // If the inbox is empty, return null
         // Else, return the message of the oldest mail present in the inbox
         if(inbox.size()==0) return  null;
-        Collections.sort(inbox,(a,b)->{
-            return b.da.compareTo(a.da);
-        });
         return inbox.get(inbox.size()-1).msg;
 
     }

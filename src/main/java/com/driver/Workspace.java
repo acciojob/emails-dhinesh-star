@@ -40,7 +40,9 @@ public class Workspace extends Gmail{
                 LocalTime end2 = calendar.get(j).getEndTime();
                 if (start2.isAfter(end)) break;
                 skippedMeetingCount++;
+                j++;
             }
+            i=j-1;
         }
         return calendar.size()-skippedMeetingCount;
     }
